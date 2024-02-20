@@ -1,12 +1,14 @@
-import { Button, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 export default function HomePage() {
-  const [count, setCount] = useState(0);
+  useEffect(() => {
+    console.log("hejejkuken");
+  }, []);
+
   return (
     <>
-      <Text>{count}</Text>
-      <Button onClick={() => setCount(count + 1)}>Click me!</Button>
+      <Text>EDU-SIMS</Text>
     </>
   );
 }
