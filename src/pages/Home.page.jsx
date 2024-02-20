@@ -1,4 +1,4 @@
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Center, Flex, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function HomePage() {
@@ -15,9 +15,11 @@ export default function HomePage() {
   };
 
   return (
-    <>
-      <Text>{serverResponse}</Text>
-      <Button onClick={fetchData}>CLICK ME!</Button>
-    </>
+    <Center w={"100vw"} h={"100vh"}>
+      <VStack>
+        <Text>{serverResponse}</Text>
+        <Button onClick={fetchData}>CLICK ME!</Button>
+      </VStack>
+    </Center>
   );
 }
