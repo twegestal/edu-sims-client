@@ -5,9 +5,9 @@ export default function HomePage() {
   const [serverResponse, setServerResponse] = useState("EDU-SIMS");
 
   const fetchData = async () => {
-    console.log("here?");
     try {
-      const res = await fetch("/api");
+      console.log(process.env.API_BASE_URL);
+      const res = await fetch(process.env.API_BASE_URL);
       const hello = await res.json();
       setServerResponse(hello);
     } catch (error) {
