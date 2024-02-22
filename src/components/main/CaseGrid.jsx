@@ -1,19 +1,20 @@
-import { Button, HStack, Hide, SimpleGrid } from '@chakra-ui/react';
-import SkeletonCard from './SkeletonCard';
-import SortCase from '../sideBar/SortCase';
+import { SimpleGrid } from '@chakra-ui/react';
+import CaseCard from './CaseCard';
 
 export default function CaseGrid() {
   return (
     <>
-      <Hide above='md'>
-        <HStack justifyContent={'space-between'} marginBottom={'10%'}>
-          <SortCase />
-          <Button colorScheme='telegram'>Slumpa fall</Button>
-        </HStack>
-      </Hide>
-      <SimpleGrid columns={[1, 2, 3]} spacing={10} justifyItems='center' alignItems='center'>
-        {Array.from({ length: 12 }).map((_, index) => (
-          <SkeletonCard key={index} />
+      <SimpleGrid
+        columns={[1, 2, 3, 4]}
+        spacing={10}
+        justifyItems='center'
+        alignItems='center'
+        pt={10}
+        pl={5}
+        pr={5}
+      >
+        {Array.from({ length: 16 }).map((_, index) => (
+          <CaseCard key={index} />
         ))}
       </SimpleGrid>
     </>

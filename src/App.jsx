@@ -1,10 +1,20 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Router } from './Router';
+
+const theme = extendTheme({
+  styles: {
+    global: {
+      '*, *::before, *::after': {
+        boxSizing: 'border-box',
+      },
+    },
+  },
+});
 
 export default function App() {
   return (
     <>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Router />
       </ChakraProvider>
     </>

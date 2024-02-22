@@ -13,32 +13,28 @@ export default function HomePage() {
              "nav main"`,
       }}
       gridTemplateRows={{
-        base: '10% 1fr',
-        lg: '10% 1fr',
+        base: '10%',
+        lg: '7%',
       }}
       gridTemplateColumns={{
         base: '1fr',
-        lg: '15% 1fr',
+        lg: '15%',
       }}
       w={'100vw'}
       h='100vh'
-      gap='1'
-      color='blackAlpha.700'
-      fontWeight='bold'
     >
-      <GridItem pl='2' area={'header'} borderBottom={'1px ridge'}>
+      <GridItem area={'header'} borderBottom={'1px ridge'} bg={'gray.50'}>
         <Header />
       </GridItem>
       <GridItem
         display={{ base: 'none', lg: 'block' }}
-        pl='2'
         area={'nav'}
-        alignContent={'center'}
         borderRight={'1px ridge'}
+        borderBottom={'1px ridge'}
       >
         <SideBar />
       </GridItem>
-      <GridItem pl='2' area={'main'}>
+      <GridItem area={'main'} borderRight={'1px ridge'}>
         <CaseGrid />
       </GridItem>
     </Grid>

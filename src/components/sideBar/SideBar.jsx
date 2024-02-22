@@ -1,11 +1,10 @@
-import { Button, Spacer, VStack } from '@chakra-ui/react';
+import { Button, VStack } from '@chakra-ui/react';
 import SortCase from './SortCase';
 
 export default function SideBar() {
   return (
-    <VStack align={'center'} h={'76vh'}>
+    <VStack align={'center'} h={'fit-content'} pt={4} pb={4} position={'sticky'} top={0}>
       <SortCase />
-      <Spacer />
       <Button colorScheme='telegram'>Slumpa fall</Button>
     </VStack>
   );

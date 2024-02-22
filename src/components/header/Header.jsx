@@ -1,6 +1,5 @@
-import { Avatar, Button, HStack, IconButton, Image, Text } from '@chakra-ui/react';
+import { HStack, IconButton, Text } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
-import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useState } from 'react';
 import NavDrawer from '../drawer/NavDrawer';
 import { ColorMode } from '../colorMode/ColorMode';
@@ -9,10 +8,9 @@ export default function Header() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   return (
     <>
-      <HStack justifyContent={'space-between'}>
-        <Image boxSize={'5%'} src={stethoscope} />
-        {/* <Text fontSize={'4xl'}>EDU-SIMS</Text> */}
-        <HStack marginRight={'3%'} spacing={'20%'}>
+      <HStack justifyContent={'space-between'} pl={'5%'} pr={'5%'} align={'center'} height={'100%'}>
+        <Text fontWeight={'bold'}>EDU-SIMS</Text>
+        <HStack spacing={'20%'}>
           <ColorMode />
           <IconButton
             variant={'outline'}
