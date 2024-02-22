@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "start": "serve -s build",
     "heroku-postbuild": "npm run build",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -36,6 +37,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.11",
     "prettier": "^3.2.5"
   }
 }
