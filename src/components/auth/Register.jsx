@@ -19,12 +19,15 @@ import {
   VStack,
   useBreakpointValue,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { CheckCircleIcon, NotAllowedIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { validateRegistration } from '../../utils/validators/userValidators';
+import { errorsToString } from '../../utils/validators/validationUtils';
 
 /**
  * This components renders the registration page and reroutes the user to the homepage on succesful registration.
@@ -39,6 +42,7 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, user } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const emailError = emailInput === '';
   const passwordError = passwordInput === '';
@@ -64,6 +68,40 @@ export default function Register() {
     return meetsCriteria ? <CheckCircleIcon color={'green'} /> : <NotAllowedIcon color={'red'} />;
   };
 
+  const passwordCriterias = () => {
+    return (
+      <VStack alignItems={'left'} placeSelf={'start'}>
+        <Heading size={'sm'} placeSelf={'start'}>
+          Lösenordskriterier:
+        </Heading>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.length} />
+          <Text>Mellan 8 och 12 tecken</Text>
+        </HStack>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.uppercase} />
+          <Text>Minst en versal</Text>
+        </HStack>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.lowercase} />
+          <Text>Minst en gemen</Text>
+        </HStack>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.number} />
+          <Text>Minst en siffra</Text>
+        </HStack>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.specialChar} />
+          <Text>Minst ett specialtecken</Text>
+        </HStack>
+        <HStack>
+          <CriteriaIcon meetsCriteria={passwordCriteria.match} />
+          <Text>Lösenorden måste matcha</Text>
+        </HStack>
+      </VStack>
+    );
+  };
+
   useEffect(() => {
     if (user) {
       console.log('user: ', user);
@@ -72,12 +110,47 @@ export default function Register() {
   }, [user, navigate]);
 
   const handleRegister = async () => {
-    if (!emailError && !passwordError && !groupIdError) {
-      const response = await register(emailInput, passwordInput, groupIdInput);
+    if (passwordInput !== confirmPasswordInput) {
+      toast({
+        title: 'Fel vid registrering',
+        description: 'Lösenorden måste matcha',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+    }
+    const validationResult = validateRegistration({
+      email: emailInput,
+      password: passwordInput,
+      group_id: groupIdInput,
+    });
 
-      if (response.status !== 201) {
-        console.log('Fel vid registrering: ', response);
+    if (validationResult.success) {
+      const response = await register(emailInput, passwordInput, groupIdInput);
+      console.log('response', response);
+      if (response !== 201) {
+        toast({
+          title: 'Fel vid registrering',
+          description: response.data,
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+          position: 'top',
+        });
       }
+    } else {
+      let errorString = '';
+      errorsToString(validationResult.errors).map((error) => (errorString += `${error}. \n`));
+      //TODO: should we concatenate all errors into one toast or map out several toasts? the newline character does not work in the toast component.
+      toast({
+        title: 'Fel vid registrering',
+        description: errorString,
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
     }
   };
 
@@ -146,6 +219,7 @@ export default function Register() {
                   >
                     <InputRightElement>
                       <IconButton
+                        tabIndex={-1}
                         icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                         onClick={() => setShowPassword(!showPassword)}
                       />
@@ -179,6 +253,7 @@ export default function Register() {
                   >
                     <InputRightElement>
                       <IconButton
+                        tabIndex={-1}
                         icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       />
@@ -194,35 +269,7 @@ export default function Register() {
                   </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
                 )}
               </FormControl>
-              <VStack alignItems={'left'} placeSelf={'start'}>
-                <Heading size={'sm'} placeSelf={'start'}>
-                  Lösenordskriterier:
-                </Heading>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.length} />
-                  <Text>Mellan 8 och 12 tecken</Text>
-                </HStack>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.uppercase} />
-                  <Text>Minst en versal</Text>
-                </HStack>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.lowercase} />
-                  <Text>Minst en gemen</Text>
-                </HStack>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.number} />
-                  <Text>Minst en siffra</Text>
-                </HStack>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.specialChar} />
-                  <Text>Minst ett specialtecken</Text>
-                </HStack>
-                <HStack>
-                  <CriteriaIcon meetsCriteria={passwordCriteria.match} />
-                  <Text>Lösenorden måste matcha</Text>
-                </HStack>
-              </VStack>
+              {passwordCriterias()}
 
               <Button
                 placeSelf={() =>
