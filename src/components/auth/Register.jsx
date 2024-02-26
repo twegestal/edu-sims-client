@@ -24,15 +24,17 @@ import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Register() {
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
-  const [showPassword, setShowPassword] = useState(false);
-  const { login, user } = useAuth();
+  const [groupIdInput, setGroupIdInput] = useState();
+  const [showPassword, setShowPassword] = useState();
+  const { register, user } = useAuth();
   const navigate = useNavigate();
 
   const emailError = emailInput === '';
   const passwordError = passwordInput === '';
+  const groupIdError = groupIdInput === '';
 
   const columns = useBreakpointValue({
     base: 1,
@@ -47,9 +49,9 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const handleLogin = async () => {
-    if (!emailError && !passwordError) {
-      await login(emailInput, passwordInput);
+  const handleRegister = async () => {
+    if (!emailError && !passwordError && !groupIdError) {
+      await register(emailInput, passwordInput, groupIdInput);
     }
   };
 
@@ -63,7 +65,7 @@ export default function Login() {
             </Show>
 
             <VStack justifyContent={'center'} spacing={2}>
-              <Heading size={'md'}>Logga in</Heading>
+              <Heading size={'md'}>Registrera nytt konto</Heading>
 
               <FormControl isRequired isInvalid={emailError}>
                 <FormLabel>Email</FormLabel>
@@ -83,6 +85,23 @@ export default function Login() {
                   </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
                 )}
               </FormControl>
+              <Tooltip label='Grupp-id får du av din lärare'>
+                <FormControl isRequired isInvalid={groupIdError}>
+                  <FormLabel>Grupp-id</FormLabel>
+
+                  <Input
+                    placeholder='Fyll i grupp-id...'
+                    autoComplete='off'
+                    onChange={(e) => setGroupIdInput(e.target.value)}
+                  />
+
+                  {groupIdError ? (
+                    <FormErrorMessage>Grupp-id får inte vara tomt</FormErrorMessage>
+                  ) : (
+                    <FormHelperText textColor={'white'}>-</FormHelperText>
+                  )}
+                </FormControl>
+              </Tooltip>
               <FormControl isRequired isInvalid={passwordError}>
                 <FormLabel>Lösenord</FormLabel>
                 <InputGroup>
@@ -118,8 +137,16 @@ export default function Login() {
                 )}
               </FormControl>
 
-              <Button placeSelf={'start'} onClick={handleLogin}>
-                Logga in
+              <Button
+                placeSelf={() =>
+                  useBreakpointValue({
+                    base: 'center',
+                    lg: 'start',
+                  })
+                }
+                onClick={handleRegister}
+              >
+                Registrera konto
               </Button>
             </VStack>
           </SimpleGrid>

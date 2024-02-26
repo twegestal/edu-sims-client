@@ -5,7 +5,7 @@ import { useApi } from '../hooks/useApi.js';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const loginApi = useApi('login');
-  //register
+  const registerApi = useApi('register');
   //refreshToken
 
   const login = async (email, password) => {
@@ -19,5 +19,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
+  const register = async ({ email, password, group_id }) => {
+    try {
+      const response = await registerApi({
+        body: {
+          email: email,
+          password: password,
+          group_id: group_id,
+        },
+      });
+
+      return response.status;
+    } catch (error) {
+      console.error('Registration failed', error);
+      return error.response.status;
+    }
+  };
+
+  return <AuthContext.Provider value={{ user, login, register }}>{children}</AuthContext.Provider>;
 };
