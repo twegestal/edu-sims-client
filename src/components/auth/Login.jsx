@@ -24,6 +24,10 @@ import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * This components renders the login page and reroutes the user to the homepage on succesful login.
+ */
+
 export default function Login() {
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
@@ -43,7 +47,7 @@ export default function Login() {
     if (user) {
       return navigate('/');
     } else {
-      console.log('no user'); //TODO: change this to use our custom error message toast
+      //TODO: change this to use our custom error message toast
     }
   }, [user, navigate]);
 

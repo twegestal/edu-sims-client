@@ -32,7 +32,7 @@ export default function AuthPage() {
         <Header />
       </GridItem>
       <GridItem area={'main'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
-        <Container maxW={containerWidth} maxH={'50%'} pt={10}>
+        <Container maxW={containerWidth} maxH={'50%'} pt={10} pb={10}>
           {register ? (
             <Register />
           ) : (
