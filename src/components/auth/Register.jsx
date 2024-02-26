@@ -6,6 +6,7 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  HStack,
   Heading,
   IconButton,
   Image,
@@ -17,8 +18,9 @@ import {
   Tooltip,
   VStack,
   useBreakpointValue,
+  Text,
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { CheckCircleIcon, NotAllowedIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useAuth } from '../../hooks/useAuth';
@@ -31,13 +33,17 @@ import { useNavigate } from 'react-router-dom';
 export default function Register() {
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState();
   const [groupIdInput, setGroupIdInput] = useState();
-  const [showPassword, setShowPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { register, user } = useAuth();
   const navigate = useNavigate();
 
   const emailError = emailInput === '';
   const passwordError = passwordInput === '';
+  const confirmPasswordError =
+    confirmPasswordInput === '' || passwordInput !== confirmPasswordInput;
   const groupIdError = groupIdInput === '';
 
   const columns = useBreakpointValue({
@@ -45,17 +51,33 @@ export default function Register() {
     lg: 2,
   });
 
+  const passwordCriteria = {
+    uppercase: /[A-Z]/.test(passwordInput),
+    lowercase: passwordInput ? /[a-z]/.test(passwordInput) : false,
+    number: /\d/.test(passwordInput),
+    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput),
+    length: passwordInput?.length >= 8 && passwordInput?.length <= 12,
+    match: passwordInput && passwordInput === confirmPasswordInput,
+  };
+
+  const CriteriaIcon = ({ meetsCriteria }) => {
+    return meetsCriteria ? <CheckCircleIcon color={'green'} /> : <NotAllowedIcon color={'red'} />;
+  };
+
   useEffect(() => {
     if (user) {
+      console.log('user: ', user);
       return navigate('/');
-    } else {
-      //TODO: change this to use our custom error message toast
     }
   }, [user, navigate]);
 
   const handleRegister = async () => {
     if (!emailError && !passwordError && !groupIdError) {
-      await register(emailInput, passwordInput, groupIdInput);
+      const response = await register(emailInput, passwordInput, groupIdInput);
+
+      if (response.status !== 201) {
+        console.log('Fel vid registrering: ', response);
+      }
     }
   };
 
@@ -110,7 +132,6 @@ export default function Register() {
                 <FormLabel>Lösenord</FormLabel>
                 <InputGroup>
                   <Input
-                    id='passwordInput'
                     placeholder='Lösenord...'
                     autoComplete='off'
                     type={showPassword ? 'text' : 'password'}
@@ -140,6 +161,68 @@ export default function Register() {
                   </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
                 )}
               </FormControl>
+              <FormControl isRequired isInvalid={confirmPasswordError}>
+                <FormLabel>Bekräfta lösenord</FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder='Bekräfta lösenord...'
+                    autoComplete='off'
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    onChange={(e) => setConfirmPasswordInput(e.target.value)}
+                  />
+                  <Tooltip
+                    label={
+                      showConfirmPassword
+                        ? 'Klicka för att dölja lösenord'
+                        : 'Klicka för att visa lösenord'
+                    }
+                  >
+                    <InputRightElement>
+                      <IconButton
+                        icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      />
+                    </InputRightElement>
+                  </Tooltip>
+                </InputGroup>
+
+                {confirmPasswordError ? (
+                  <FormErrorMessage>Bekräfta lösenord får inte vara tomt</FormErrorMessage>
+                ) : (
+                  <FormHelperText textColor={'white'}>
+                    -
+                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
+                )}
+              </FormControl>
+              <VStack alignItems={'left'} placeSelf={'start'}>
+                <Heading size={'sm'} placeSelf={'start'}>
+                  Lösenordskriterier:
+                </Heading>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.length} />
+                  <Text>Mellan 8 och 12 tecken</Text>
+                </HStack>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.uppercase} />
+                  <Text>Minst en versal</Text>
+                </HStack>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.lowercase} />
+                  <Text>Minst en gemen</Text>
+                </HStack>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.number} />
+                  <Text>Minst en siffra</Text>
+                </HStack>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.specialChar} />
+                  <Text>Minst ett specialtecken</Text>
+                </HStack>
+                <HStack>
+                  <CriteriaIcon meetsCriteria={passwordCriteria.match} />
+                  <Text>Lösenorden måste matcha</Text>
+                </HStack>
+              </VStack>
 
               <Button
                 placeSelf={() =>
