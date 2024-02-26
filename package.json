@@ -10,8 +10,7 @@
     "preview": "vite preview",
     "start": "serve -s build",
     "heroku-postbuild": "npm run build",
-    "format": "prettier --write .",
-    "prepare": "husky"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
