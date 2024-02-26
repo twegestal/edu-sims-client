@@ -42,6 +42,8 @@ export default function Login() {
   useEffect(() => {
     if (user) {
       return navigate('/');
+    } else {
+      console.log('no user'); //TODO: change this to use our custom error message toast
     }
   }, [user, navigate]);
 
@@ -62,63 +64,66 @@ export default function Login() {
 
             <VStack justifyContent={'center'} spacing={5}>
               <Heading size={'md'}>Logga in</Heading>
-
-              <FormControl isRequired isInvalid={emailError}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  type='email'
-                  placeholder='Email...'
-                  autoComplete='off'
-                  onChange={(e) => {
-                    setEmailInput(e.target.value);
-                  }}
-                />
-                {emailError ? (
-                  <FormErrorMessage>Emailfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
-              </FormControl>
-              <FormControl isRequired isInvalid={passwordError}>
-                <FormLabel>Lösenord</FormLabel>
-                <InputGroup>
+              <form onSubmit={handleLogin}>
+                <FormControl isRequired isInvalid={emailError}>
+                  {' '}
+                  {/* TODO: at the moment the isRequired property is handled by HTML form, this should be handled by our custom alert toasts instead */}
+                  <FormLabel>Email</FormLabel>
                   <Input
-                    id='passwordInput'
-                    placeholder='Lösenord...'
+                    type='email'
+                    placeholder='Email...'
                     autoComplete='off'
-                    type={showPassword ? 'text' : 'password'}
-                    onChange={(e) => setPasswordInput(e.target.value)}
+                    onChange={(e) => {
+                      setEmailInput(e.target.value);
+                    }}
                   />
-                  <Tooltip
-                    label={
-                      showPassword
-                        ? 'Klicka för att dölja lösenord'
-                        : 'Klicka för att visa lösenord'
-                    }
-                  >
-                    <InputRightElement>
-                      <IconButton
-                        icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    </InputRightElement>
-                  </Tooltip>
-                </InputGroup>
+                  {emailError ? (
+                    <FormErrorMessage>Emailfältet får inte vara tomt</FormErrorMessage>
+                  ) : (
+                    <FormHelperText textColor={'white'}>
+                      -
+                    </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
+                  )}
+                </FormControl>
+                <FormControl isRequired isInvalid={passwordError}>
+                  <FormLabel>Lösenord</FormLabel>
+                  <InputGroup>
+                    <Input
+                      id='passwordInput'
+                      placeholder='Lösenord...'
+                      autoComplete='off'
+                      type={showPassword ? 'text' : 'password'}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                    />
+                    <Tooltip
+                      label={
+                        showPassword
+                          ? 'Klicka för att dölja lösenord'
+                          : 'Klicka för att visa lösenord'
+                      }
+                    >
+                      <InputRightElement>
+                        <IconButton
+                          icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                          onClick={() => setShowPassword(!showPassword)}
+                        />
+                      </InputRightElement>
+                    </Tooltip>
+                  </InputGroup>
 
-                {passwordError ? (
-                  <FormErrorMessage>Lösenordfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
-              </FormControl>
+                  {passwordError ? (
+                    <FormErrorMessage>Lösenordfältet får inte vara tomt</FormErrorMessage>
+                  ) : (
+                    <FormHelperText textColor={'white'}>
+                      -
+                    </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
+                  )}
+                </FormControl>
 
-              <Button placeSelf={'start'} onClick={handleLogin}>
-                Logga in
-              </Button>
+                <Button placeSelf={'start'} type='submit'>
+                  Logga in
+                </Button>
+              </form>
             </VStack>
           </SimpleGrid>
         </CardBody>
