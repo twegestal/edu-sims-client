@@ -66,8 +66,6 @@ export default function Login() {
               <Heading size={'md'}>Logga in</Heading>
 
               <FormControl isRequired isInvalid={emailError}>
-                {' '}
-                {/* TODO: at the moment the isRequired property is handled by HTML form, this should be handled by our custom alert toasts instead */}
                 <FormLabel>Email</FormLabel>
                 <Input
                   type='email'
