@@ -1,5 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Router } from './Router';
+import { AuthProvider } from './contexts/AuthProvider';
 
 const theme = extendTheme({
   styles: {
@@ -15,7 +16,9 @@ export default function App() {
   return (
     <>
       <ChakraProvider theme={theme}>
-        <Router />
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
       </ChakraProvider>
     </>
   );
