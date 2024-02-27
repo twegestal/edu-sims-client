@@ -4,6 +4,7 @@ import { useAuth } from './useAuth';
 import { api } from '../api/index';
 
 const prefixUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+console.log(prefixUrl);
 
 const getHeaders = (token) => ({
   'Content-Type': 'application/json',
