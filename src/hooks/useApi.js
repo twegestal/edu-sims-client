@@ -4,7 +4,6 @@ import { useAuth } from './useAuth';
 import { api } from '../api/index';
 
 const prefixUrl = import.meta.env.VITE_API_BASE_URL || '/api';
-console.log(prefixUrl);
 
 const getHeaders = (token) => ({
   'Content-Type': 'application/json',
@@ -20,6 +19,7 @@ export const useApi = (method) => {
       ky.create({
         prefixUrl,
         headers: getHeaders(token),
+        credentials: 'include',
         hooks: {
           afterResponse: [
             async (_request, _options, response) => {
@@ -42,6 +42,7 @@ export const useApi = (method) => {
         ...getHeaders(token),
         ...customHeaders,
       },
+      credentials: 'include',
     };
     const apiMethod = api(apiClient)[method];
     if (typeof apiMethod !== 'function') {
