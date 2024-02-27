@@ -1,12 +1,18 @@
 import AuthContext from '../hooks/useAuth';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi.js';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const loginApi = useApi('login');
   const registerApi = useApi('register');
-  //refreshToken
+  const refreshTokenApi = useApi('refreshToken');
+
+  useEffect(() => {
+    if (!user) {
+      loginWithRefreshToken();
+    }
+  }, [user]);
 
   const login = async (email, password) => {
     try {
@@ -17,6 +23,13 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('Login failed', error);
     }
+  };
+
+  const loginWithRefreshToken = async () => {
+    try {
+      const response = await refreshTokenApi();
+      setUser(response.data);
+    } catch (error) {}
   };
 
   const register = async (email, password, group_id) => {
