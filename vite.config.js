@@ -8,9 +8,10 @@ export default defineConfig({
     outDir: 'build'
   }, 
   server: {
+    host: true,
     proxy: {
       '/api': {
-        target: 'http://10.2.4.15:3000',
+        target: 'http://10.2.3.27:3000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
