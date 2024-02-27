@@ -3,8 +3,6 @@ import {
   Card,
   CardBody,
   FormControl,
-  FormErrorMessage,
-  FormHelperText,
   FormLabel,
   HStack,
   Heading,
@@ -37,18 +35,16 @@ export default function Register() {
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
   const [confirmPasswordInput, setConfirmPasswordInput] = useState();
-  const [groupIdInput, setGroupIdInput] = useState();
+  const [registrationCodeInput, setRegistrationCodeInput] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [registrationCodeError, setRegistrationCodeError] = useState(false);
   const { register, user } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
-
-  const emailError = emailInput === '';
-  const passwordError = passwordInput === '';
-  const confirmPasswordError =
-    confirmPasswordInput === '' || passwordInput !== confirmPasswordInput;
-  const groupIdError = groupIdInput === '';
 
   const columns = useBreakpointValue({
     base: 1,
@@ -59,8 +55,8 @@ export default function Register() {
     uppercase: /[A-Z]/.test(passwordInput),
     lowercase: passwordInput ? /[a-z]/.test(passwordInput) : false,
     number: /\d/.test(passwordInput),
-    specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput),
-    length: passwordInput?.length >= 8 && passwordInput?.length <= 12,
+    specialChar: /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(passwordInput),
+    length: passwordInput?.length >= 8,
     match: passwordInput && passwordInput === confirmPasswordInput,
   };
 
@@ -76,7 +72,7 @@ export default function Register() {
         </Heading>
         <HStack>
           <CriteriaIcon meetsCriteria={passwordCriteria.length} />
-          <Text>Mellan 8 och 12 tecken</Text>
+          <Text>Minst 8 tecken</Text>
         </HStack>
         <HStack>
           <CriteriaIcon meetsCriteria={passwordCriteria.uppercase} />
@@ -104,13 +100,14 @@ export default function Register() {
 
   useEffect(() => {
     if (user) {
-      console.log('user: ', user);
       return navigate('/');
     }
   }, [user, navigate]);
 
   const handleRegister = async () => {
     if (passwordInput !== confirmPasswordInput) {
+      setPasswordError(true);
+      setConfirmPasswordError(true);
       toast({
         title: 'Fel vid registrering',
         description: 'Lösenorden måste matcha',
@@ -123,26 +120,44 @@ export default function Register() {
     const validationResult = validateRegistration({
       email: emailInput,
       password: passwordInput,
-      group_id: groupIdInput,
+      group_id: registrationCodeInput,
     });
 
     if (validationResult.success) {
-      const response = await register(emailInput, passwordInput, groupIdInput);
-      console.log('response', response);
-      if (response !== 201) {
+      const response = await register(emailInput, passwordInput, registrationCodeInput);
+
+      if (response.status !== 201) {
         toast({
           title: 'Fel vid registrering',
-          description: response.data,
+          description: await response.json(),
           status: 'warning',
+          duration: 5000,
+          isClosable: true,
+          position: 'top',
+        });
+      } else {
+        toast({
+          title: 'Välkommen!',
+          description: `Registrering av kontot ${response.data.email} lyckades.`,
+          status: 'success',
           duration: 5000,
           isClosable: true,
           position: 'top',
         });
       }
     } else {
+      validationResult.errors.map((error) => {
+        if (error.path === 'password') {
+          setPasswordError(true);
+          setConfirmPasswordError(true);
+        } else if (error.path === 'email') {
+          setEmailError(true);
+        } else if (error.path === 'group_id') {
+          setRegistrationCodeError(true);
+        }
+      });
       let errorString = '';
       errorsToString(validationResult.errors).map((error) => (errorString += `${error}. \n`));
-      //TODO: should we concatenate all errors into one toast or map out several toasts? the newline character does not work in the toast component.
       toast({
         title: 'Fel vid registrering',
         description: errorString,
@@ -163,7 +178,7 @@ export default function Register() {
               <Image src={stethoscope} />
             </Show>
 
-            <VStack justifyContent={'center'} spacing={2}>
+            <VStack justifyContent={'center'} spacing={5}>
               <Heading size={'md'}>Registrera nytt konto</Heading>
 
               <FormControl isRequired isInvalid={emailError}>
@@ -173,32 +188,23 @@ export default function Register() {
                   placeholder='Email...'
                   autoComplete='off'
                   onChange={(e) => {
+                    setEmailError(false);
                     setEmailInput(e.target.value);
                   }}
                 />
-                {emailError ? (
-                  <FormErrorMessage>Emailfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
-              <Tooltip label='Grupp-id får du av din lärare'>
-                <FormControl isRequired isInvalid={groupIdError}>
-                  <FormLabel>Grupp-id</FormLabel>
+              <Tooltip label='Registreringskod får du av din lärare'>
+                <FormControl isRequired isInvalid={registrationCodeError}>
+                  <FormLabel>Registreringskod</FormLabel>
 
                   <Input
-                    placeholder='Fyll i grupp-id...'
+                    placeholder='Fyll i registreringskod...'
                     autoComplete='off'
-                    onChange={(e) => setGroupIdInput(e.target.value)}
+                    onChange={(e) => {
+                      setRegistrationCodeError(false);
+                      setRegistrationCodeInput(e.target.value);
+                    }}
                   />
-
-                  {groupIdError ? (
-                    <FormErrorMessage>Grupp-id får inte vara tomt</FormErrorMessage>
-                  ) : (
-                    <FormHelperText textColor={'white'}>-</FormHelperText>
-                  )}
                 </FormControl>
               </Tooltip>
               <FormControl isRequired isInvalid={passwordError}>
@@ -208,7 +214,10 @@ export default function Register() {
                     placeholder='Lösenord...'
                     autoComplete='off'
                     type={showPassword ? 'text' : 'password'}
-                    onChange={(e) => setPasswordInput(e.target.value)}
+                    onChange={(e) => {
+                      setPasswordError(false);
+                      setPasswordInput(e.target.value);
+                    }}
                   />
                   <Tooltip
                     label={
@@ -221,19 +230,13 @@ export default function Register() {
                       <IconButton
                         tabIndex={-1}
                         icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={() => {
+                          setShowPassword(!showPassword);
+                        }}
                       />
                     </InputRightElement>
                   </Tooltip>
                 </InputGroup>
-
-                {passwordError ? (
-                  <FormErrorMessage>Lösenordfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
               <FormControl isRequired isInvalid={confirmPasswordError}>
                 <FormLabel>Bekräfta lösenord</FormLabel>
@@ -242,7 +245,10 @@ export default function Register() {
                     placeholder='Bekräfta lösenord...'
                     autoComplete='off'
                     type={showConfirmPassword ? 'text' : 'password'}
-                    onChange={(e) => setConfirmPasswordInput(e.target.value)}
+                    onChange={(e) => {
+                      setConfirmPasswordError(false);
+                      setConfirmPasswordInput(e.target.value);
+                    }}
                   />
                   <Tooltip
                     label={
@@ -260,14 +266,6 @@ export default function Register() {
                     </InputRightElement>
                   </Tooltip>
                 </InputGroup>
-
-                {confirmPasswordError ? (
-                  <FormErrorMessage>Bekräfta lösenord får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
               {passwordCriterias()}
 

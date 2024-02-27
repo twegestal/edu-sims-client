@@ -29,7 +29,9 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      return response.status;
+      setUser(response.data);
+
+      return response;
     } catch (error) {
       console.error('Registration failed', error);
       return error.response.status;

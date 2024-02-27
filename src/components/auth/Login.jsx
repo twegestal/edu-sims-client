@@ -66,7 +66,7 @@ export default function Login() {
               <Image src={stethoscope} />
             </Show>
 
-            <VStack justifyContent={'center'} spacing={2}>
+            <VStack justifyContent={'center'} spacing={5}>
               <Heading size={'md'}>Logga in</Heading>
 
               <FormControl isRequired isInvalid={emailError}>
@@ -79,13 +79,6 @@ export default function Login() {
                     setEmailInput(e.target.value);
                   }}
                 />
-                {emailError ? (
-                  <FormErrorMessage>Emailfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
               <FormControl isRequired isInvalid={passwordError}>
                 <FormLabel>Lösenord</FormLabel>
@@ -112,14 +105,6 @@ export default function Login() {
                     </InputRightElement>
                   </Tooltip>
                 </InputGroup>
-
-                {passwordError ? (
-                  <FormErrorMessage>Lösenordfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
 
               <Button placeSelf={'start'} onClick={handleLogin}>
