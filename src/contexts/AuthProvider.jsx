@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await refreshTokenApi();
       setUser(response.data);
-    } catch (error) {}
+    } catch (ignored) {}
   };
 
   const register = async (email, password, group_id) => {
