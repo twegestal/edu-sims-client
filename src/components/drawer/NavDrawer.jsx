@@ -9,8 +9,10 @@ import {
   Button,
 } from '@chakra-ui/react';
 import DrawerMenu from './DrawerMenu';
+import { useUser } from '../../hooks/useUser';
 
 export default function NavDrawer({ isOpen, onClose }) {
+  const { logout } = useUser();
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement={'right'}>
       <DrawerOverlay />
@@ -21,7 +23,9 @@ export default function NavDrawer({ isOpen, onClose }) {
           <DrawerMenu />
         </DrawerBody>
         <DrawerFooter justifyContent={'center'}>
-          <Button colorScheme='blue'>Logga ut</Button>
+          <Button colorScheme='blue' onClick={logout}>
+            Logga ut
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
