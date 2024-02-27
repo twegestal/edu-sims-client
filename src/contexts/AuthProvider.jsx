@@ -51,5 +51,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  return <AuthContext.Provider value={{ user, login, register }}>{children}</AuthContext.Provider>;
+  const removeLoggedOutUser = () => {
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, removeLoggedOutUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
