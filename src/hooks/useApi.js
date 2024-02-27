@@ -2,7 +2,6 @@ import ky from 'ky';
 import { useMemo } from 'react';
 import { useAuth } from './useAuth';
 import { api } from '../api/index';
-//TODO: updateToken i useAutj
 
 const prefixUrl = import.meta.env.VITE_API_BASE_URL || '/api';
 
@@ -12,7 +11,7 @@ const getHeaders = (token) => ({
 });
 
 export const useApi = (method) => {
-  const { user, updateToken } = useAuth() || {}; //TODO: glöm inte updateToken!
+  const { user, updateToken } = useAuth() || {};
   const token = user ? user.token : undefined;
 
   const apiClient = useMemo(

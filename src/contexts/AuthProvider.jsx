@@ -51,12 +51,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateToken = (token) => {
+    setUser({
+      ...user,
+      token,
+    });
+  };
+
   const removeLoggedOutUser = () => {
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, removeLoggedOutUser }}>
+    <AuthContext.Provider value={{ user, login, register, removeLoggedOutUser, updateToken }}>
       {children}
     </AuthContext.Provider>
   );
