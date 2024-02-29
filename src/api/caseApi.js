@@ -7,4 +7,8 @@ export const caseApi = (apiClient) => ({
     return packageResponse(response);
   },
 
+  getCaseById: async (query) => {
+    const response = await apiClient.get(`${prefix}`,query);
+    return packageResponse(response);
+  },
 });

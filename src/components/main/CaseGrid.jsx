@@ -28,30 +28,28 @@ export default function CaseGrid() {
   const fetchCases = async () => {
     await getAllCases();
   };
-
-  const showM = async (id) => {
+  const retrieveCaseById = async (id) => {
     await getCaseById(id);
-    console.log(caseById);
   }
 
   return (
     <>
-      {!loading && (<SimpleGrid
-        columns={gridSpacing}
-        spacing={10}
-        justifyItems='center'
-        alignItems='center'
-        pt={10}
-        pl={5}
-        pr={5}
-      >
-        {cases.map((currentCase) => (
-          currentCase.published && (
-            <CaseCard key={currentCase.id} name={currentCase.name} />
-          )
-        ))}
-        <Button onClick={() => showM('73784318-185d-4f4a-8dc4-ee77a45afcd9')}>me</Button>
-      </SimpleGrid>)}
+      {!loading && (
+        <SimpleGrid
+          columns={gridSpacing}
+          spacing={10}
+          justifyItems='center'
+          alignItems='center'
+          pt={10}
+          pl={5}
+          pr={5}
+        >
+          {cases.map((currentCase) => (
+            currentCase.published && (
+              <CaseCard key={currentCase.id} name={currentCase.name} />
+            )
+          ))}
+        </SimpleGrid>)}
 
     </>
   );

@@ -22,7 +22,7 @@ const getColorScheme = (medicalField) =>{
   }
 }
 
-export default function CaseCard({name, medicalField}) {
+export default function CaseCard({name, medicalField,caseId}) {
   return (
     <Card bg={getColorScheme('endo')} minH={'185px'} minW={'255px'} maxW={'370'} borderWidth={1} borderColor={'gray.400'}>
       <CardBody>
