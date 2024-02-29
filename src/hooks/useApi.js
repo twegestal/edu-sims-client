@@ -34,13 +34,14 @@ export const useApi = (method) => {
   );
 
   return async (options = {}) => {
-    const { body, headers: customHeaders } = options;
+    const { body, headers: customHeaders, searchParams} = options;
     const finalOptions = {
       json: body,
       headers: {
         ...getHeaders(token),
         ...customHeaders,
       },
+      searchParams: searchParams,
     };
     const apiMethod = api(apiClient)[method];
     if (typeof apiMethod !== 'function') {
