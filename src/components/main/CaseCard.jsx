@@ -16,15 +16,15 @@ import {
 import stethoscope from '../../assets/images/svg/stethoscope.svg';
 
 const getColorScheme = (medicalField) =>{
+  console.log("IDEEET ÄR", medicalField);
   switch(medicalField){
-    case 'endo': return 'blue.50';
-
+    case '6ff9e368-1e44-46d1-8192-ac3069c34f20': return 'blue.50';
   }
 }
 
-export default function CaseCard({name, medicalField,caseId}) {
+export default function CaseCard({name, medicalFieldId}) {
   return (
-    <Card bg={getColorScheme('endo')} minH={'185px'} minW={'255px'} maxW={'370'} borderWidth={1} borderColor={'gray.400'}>
+    <Card bg={getColorScheme(medicalFieldId)} minH={'185px'} minW={'255px'} maxW={'370'} borderWidth={1} borderColor={'gray.400'}>
       <CardBody>
         <HStack>
           <Image boxSize={'30%'} src={stethoscope} />

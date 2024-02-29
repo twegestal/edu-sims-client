@@ -23,6 +23,7 @@ export default function CaseGrid() {
     } else {
       setLoading(false);
     }
+    console.log(cases);
   }, [cases, loading]);
 
   const fetchCases = async () => {
@@ -46,7 +47,7 @@ export default function CaseGrid() {
         >
           {cases.map((currentCase) => (
             currentCase.published && (
-              <CaseCard key={currentCase.id} name={currentCase.name} />
+              <CaseCard key={currentCase.id} medicalFieldId={currentCase.medical_field_id} name={currentCase.name} />
             )
           ))}
         </SimpleGrid>)}

@@ -41,7 +41,7 @@ export const useApi = (method) => {
         ...getHeaders(token),
         ...customHeaders,
       },
-      searchParams: searchParams, // Include the searchParams option here
+      searchParams: searchParams,
     };
     const apiMethod = api(apiClient)[method];
     if (typeof apiMethod !== 'function') {
