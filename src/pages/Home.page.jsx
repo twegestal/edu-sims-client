@@ -34,8 +34,8 @@ export default function HomePage() {
             base: '1fr',
             lg: '15%',
           }}
-          w={'100vw'}
-          h='100vh'
+          w={'100%'}
+          h={'100vh'}
         >
           <GridItem area={'header'} borderBottom={'1px ridge'} bg={'gray.50'}>
             <Header />

@@ -24,6 +24,10 @@ import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useAuth } from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * This components renders the login page and reroutes the user to the homepage on succesful login.
+ */
+
 export default function Login() {
   const [emailInput, setEmailInput] = useState();
   const [passwordInput, setPasswordInput] = useState();
@@ -43,7 +47,7 @@ export default function Login() {
     if (user) {
       return navigate('/');
     } else {
-      console.log('no user'); //TODO: change this to use our custom error message toast
+      //TODO: change this to use our custom error message toast
     }
   }, [user, navigate]);
 
@@ -75,13 +79,6 @@ export default function Login() {
                     setEmailInput(e.target.value);
                   }}
                 />
-                {emailError ? (
-                  <FormErrorMessage>Emailfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
               <FormControl isRequired isInvalid={passwordError}>
                 <FormLabel>Lösenord</FormLabel>
@@ -108,14 +105,6 @@ export default function Login() {
                     </InputRightElement>
                   </Tooltip>
                 </InputGroup>
-
-                {passwordError ? (
-                  <FormErrorMessage>Lösenordfältet får inte vara tomt</FormErrorMessage>
-                ) : (
-                  <FormHelperText textColor={'white'}>
-                    -
-                  </FormHelperText> /* TODO: this is a messy workaround to keep components from moving when rendering error message */
-                )}
               </FormControl>
 
               <Button placeSelf={'start'} onClick={handleLogin}>

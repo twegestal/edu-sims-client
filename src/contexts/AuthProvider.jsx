@@ -1,12 +1,18 @@
 import AuthContext from '../hooks/useAuth';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useApi } from '../hooks/useApi.js';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const loginApi = useApi('login');
-  //register
-  //refreshToken
+  const registerApi = useApi('register');
+  const refreshTokenApi = useApi('refreshToken');
+
+  useEffect(() => {
+    if (!user) {
+      loginWithRefreshToken();
+    }
+  }, [user]);
 
   const login = async (email, password) => {
     try {
@@ -19,5 +25,46 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  return <AuthContext.Provider value={{ user, login }}>{children}</AuthContext.Provider>;
+  const loginWithRefreshToken = async () => {
+    try {
+      const response = await refreshTokenApi();
+      setUser(response.data);
+    } catch (ignored) {}
+  };
+
+  const register = async (email, password, group_id) => {
+    try {
+      const response = await registerApi({
+        body: {
+          email: email,
+          password: password,
+          group_id: group_id,
+        },
+      });
+
+      setUser(response.data);
+
+      return response;
+    } catch (error) {
+      console.error('Registration failed', error);
+      return error.response.status;
+    }
+  };
+
+  const updateToken = (token) => {
+    setUser({
+      ...user,
+      token,
+    });
+  };
+
+  const removeLoggedOutUser = () => {
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, removeLoggedOutUser, updateToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
