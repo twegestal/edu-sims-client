@@ -115,7 +115,6 @@ export default function CaseDisplay() {
           width='12%'
           src={questionMarkIcon}
           alt='Okänd'
-          /* minW='12%' */
           maxW='50px'
           maxH='50px'
           minW='40px'
@@ -130,7 +129,6 @@ export default function CaseDisplay() {
             width='12%'
             src={introIcon}
             alt='Introduktion'
-            /* minW='12%' */
             maxW='50px'
             maxH='50px'
             minW='40px'
@@ -144,7 +142,6 @@ export default function CaseDisplay() {
             width='12%'
             src={examIcon}
             alt='Utredning'
-            /* minW='12%' */
             maxW='50px'
             maxH='50px'
             minW='40px'
@@ -158,7 +155,6 @@ export default function CaseDisplay() {
             width='12%'
             src={diagnosisIcon}
             alt='Diagnos'
-            /* minW='12%' */
             maxW='50px'
             maxH='50px'
             minW='40px'
@@ -172,7 +168,6 @@ export default function CaseDisplay() {
             width='12%'
             src={treatmentIcon}
             alt='Behandling'
-            /* minW='12%' */
             maxW='50px'
             maxH='50px'
             minW='40px'
@@ -186,7 +181,6 @@ export default function CaseDisplay() {
             width='12%'
             src={summaryIcon}
             alt='Sammanfattning'
-            /* minW='12%' */
             maxW='50px'
             maxH='50px'
             minW='40px'
