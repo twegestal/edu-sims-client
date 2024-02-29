@@ -13,8 +13,10 @@ import {
   Box,
 } from '@chakra-ui/react';
 import stethoscope from '../../assets/images/svg/stethoscope.svg';
+import { useNavigate } from 'react-router-dom';
 
 export default function CaseCard() {
+  const navigate = useNavigate();
   return (
     <Card bgGradient={'linear(to-br, gray.50, whiteAlpha.50)'}>
       <CardBody>
@@ -27,7 +29,14 @@ export default function CaseCard() {
       <Divider color={'lightgray'} />
       <CardFooter>
         <HStack spacing={2} justifyContent={'space-between'} w={'full'}>
-          <Button flexShrink={1} variant={'solid'} colorScheme='telegram'>
+          <Button
+            flexShrink={1}
+            variant={'solid'}
+            colorScheme='telegram'
+            onClick={() => {
+              return navigate('/case');
+            }}
+          >
             Spela fall
           </Button>
           <Box flexShrink={1} minWidth={'30%'}>

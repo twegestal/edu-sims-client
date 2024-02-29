@@ -229,6 +229,7 @@ export default function Register() {
                     <InputRightElement>
                       <IconButton
                         tabIndex={-1}
+                        variant={'icon_button'}
                         icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                         onClick={() => {
                           setShowPassword(!showPassword);
@@ -260,6 +261,7 @@ export default function Register() {
                     <InputRightElement>
                       <IconButton
                         tabIndex={-1}
+                        variant={'icon_button'}
                         icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       />

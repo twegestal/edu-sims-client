@@ -3,8 +3,6 @@ import {
   Card,
   CardBody,
   FormControl,
-  FormErrorMessage,
-  FormHelperText,
   FormLabel,
   Heading,
   IconButton,
@@ -99,6 +97,8 @@ export default function Login() {
                   >
                     <InputRightElement>
                       <IconButton
+                        tabIndex={-1}
+                        variant={'icon_button'}
                         icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                         onClick={() => setShowPassword(!showPassword)}
                       />

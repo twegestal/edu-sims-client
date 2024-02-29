@@ -7,6 +7,7 @@ export const ColorMode = () => {
   return (
     <IconButton
       aria-label={'Color mode switch'}
+      variant={'icon_button'}
       icon={colorMode === 'dark' ? <SunIcon /> : <MoonIcon />}
       onClick={toggleColorMode}
     />

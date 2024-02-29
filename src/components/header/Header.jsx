@@ -13,7 +13,7 @@ export default function Header() {
         <HStack spacing={'20%'}>
           <ColorMode />
           <IconButton
-            variant={'outline'}
+            variant={'icon_button'}
             size={'md'}
             icon={<HamburgerIcon />}
             onClick={() => setIsDrawerOpen(true)}

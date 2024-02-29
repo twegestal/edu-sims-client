@@ -1,16 +1,7 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Router } from './Router';
 import { AuthProvider } from './contexts/AuthProvider';
-
-const theme = extendTheme({
-  styles: {
-    global: {
-      '*, *::before, *::after': {
-        boxSizing: 'border-box',
-      },
-    },
-  },
-});
+import theme from './styles/theme.js';
 
 export default function App() {
   return (
