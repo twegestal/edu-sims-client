@@ -9,14 +9,13 @@ import {
   Text,
   Image,
   HStack,
-  Progress,
   Box,
   VStack,
 } from '@chakra-ui/react';
 import stethoscope from '../../assets/images/svg/stethoscope.svg';
 import { useNavigate } from 'react-router-dom';
 
-export default function CaseCard({ name, medicalFieldId }) {
+export default function CaseCard({ name, medicalFieldId, caseId }) {
   const navigate = useNavigate();
 
   const getColorScheme = (medicalField) => {
@@ -40,7 +39,7 @@ export default function CaseCard({ name, medicalFieldId }) {
           <Image boxSize={'30%'} src={stethoscope} />
           <VStack>
             <Heading size={'md'} pl={4}>
-              {name}👿
+              {name}
             </Heading>
           </VStack>
         </HStack>
@@ -53,6 +52,7 @@ export default function CaseCard({ name, medicalFieldId }) {
             variant={'solid'}
             colorScheme='telegram'
             onClick={() => {
+              localStorage.setItem("currentCase", caseId);
               return navigate('/case');
             }}
           >
