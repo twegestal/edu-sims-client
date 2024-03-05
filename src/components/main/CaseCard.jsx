@@ -5,7 +5,6 @@ import {
   CardFooter,
   Divider,
   Heading,
-  Stack,
   Text,
   Image,
   HStack,

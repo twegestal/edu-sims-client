@@ -46,14 +46,13 @@ export default function CaseDisplay() {
     caseById, getCaseById
   } = useCase();
 
-
   useEffect(() => {
     const caseId = localStorage.getItem("currentCase");
     if (!caseById) {
       retrieveCaseById(caseId);
     } else {
       setSteps(caseById.steps);
-      const caseId = localStorage.removeItem("currentCase");
+      localStorage.removeItem("currentCase");
       setLoading(true);
     }
 
