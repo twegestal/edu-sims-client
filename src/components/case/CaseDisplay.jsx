@@ -10,11 +10,11 @@ import {
   Icon,
   Tooltip,
   Image,
-  Button,
 } from '@chakra-ui/react';
 import { LockIcon, WarningIcon } from '@chakra-ui/icons';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { getMockSteps } from './exampleData';
+import { useEffect } from 'react';
+import { useCase } from '../../hooks/useCase';
 
 import Introduction from './steps/Introduction';
 import Examination from './steps/Examination';
@@ -28,15 +28,37 @@ import diagnosisIcon from '../../assets/images/png/DiagnosisIcon.png';
 import treatmentIcon from '../../assets/images/png/TreatmentIcon.png';
 import summaryIcon from '../../assets/images/png/SummaryIcon.png';
 import questionMarkIcon from '../../assets/images/png/QuestionMarkIcon.png';
+import { set } from 'zod';
 
 export default function CaseDisplay() {
-  const steps = getMockSteps();
+  const [steps, setSteps] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const moduleTypeTable = ['Introduktion', 'Utredning', 'Diagnos', 'Behandling', 'Sammanfattning'];
   const [openCardIndex, setOpenCardIndex] = useState(null);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [isFinishedArray, setIsFinishedArray] = useState(new Array(steps.length).fill(false));
   const [faultsArray, setFaultsArray] = useState(new Array(steps.length).fill(false));
+
+  const {
+    caseById, getCaseById
+  } = useCase();
+
+  useEffect(() => {
+    const caseId = localStorage.getItem("currentCase");
+    if (!caseById) {
+      retrieveCaseById(caseId);
+    } else {
+      setSteps(caseById.steps);
+      localStorage.removeItem("currentCase");
+      setLoading(true);
+    }
+
+  }, [caseById]);
+
+  const retrieveCaseById = async (id) => {
+    await getCaseById(id);
+  }
 
   const CircleIcon = (props) => (
     <Icon viewBox='0 0 200 200' boxSize='4' {...props}>
@@ -260,28 +282,29 @@ export default function CaseDisplay() {
 
   return (
     <>
-      <VStack margin={'1'} alignItems={'stretch'} spacing={'1'}>
-        {steps.map((step, index) => (
-          <Card key={index}>
-            <CardHeader margin={'-0.75'}>
-              <HStack justify={'space-between'}>
-                <HStack spacing={'8'}>
-                  {getImage(step.module_type_identifier, index)}
-                  <Text>{getModuleName(step.module_type_identifier, index)}</Text>
+      {loading && (
+        <VStack margin={'1'} alignItems={'stretch'} spacing={'1'}>
+          {steps.map((step, index) => (
+            <Card key={index}>
+              <CardHeader margin={'-0.75'}>
+                <HStack justify={'space-between'}>
+                  <HStack spacing={'8'}>
+                    {getImage(step.module_type_identifier, index)}
+                    <Text>{getModuleName(step.module_type_identifier, index)}</Text>
+                  </HStack>
+                  <HStack spacing={'8'}>
+
+                    {getControlIcon(index)}
+                  </HStack>
                 </HStack>
-                <HStack spacing={'8'}>
-                  {/* {getFaultsIcon(index)} */}
-                  {/* {getProgressIcon(index)} */}
-                  {getControlIcon(index)}
-                </HStack>
-              </HStack>
-            </CardHeader>
-            <Collapse in={openCardIndex === index}>
-              <CardBody>{moduleSwitch(step.stepData, step.module_type_identifier, index)}</CardBody>
-            </Collapse>
-          </Card>
-        ))}
-      </VStack>
+              </CardHeader>
+              <Collapse in={openCardIndex === index}>
+                <CardBody>{moduleSwitch(step.stepData, step.module_type_identifier, index)}</CardBody>
+              </Collapse>
+            </Card>
+          ))}
+        </VStack>
+      )}
     </>
   );
 }

@@ -214,8 +214,8 @@ export default function Examination({
                         .filter((examination) =>
                           searchTerms[subType]
                             ? examination.name
-                                .toLowerCase()
-                                .includes(searchTerms[subType].toLowerCase())
+                              .toLowerCase()
+                              .includes(searchTerms[subType].toLowerCase())
                             : true,
                         )
                         .map((examination) => (

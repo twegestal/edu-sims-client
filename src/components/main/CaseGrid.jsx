@@ -1,4 +1,4 @@
-import { Button, SimpleGrid, useBreakpointValue } from '@chakra-ui/react';
+import {SimpleGrid, useBreakpointValue } from '@chakra-ui/react';
 import CaseCard from './CaseCard';
 import { useCase } from '../../hooks/useCase';
 import { useEffect, useState } from 'react';
@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 export default function CaseGrid() {
   const {
     cases, getAllCases,
-    caseById, getCaseById
   } = useCase();
+
   const [loading, setLoading] = useState(true);
   const gridSpacing = useBreakpointValue(
     {
@@ -23,15 +23,11 @@ export default function CaseGrid() {
     } else {
       setLoading(false);
     }
-    console.log(cases);
   }, [cases, loading]);
 
   const fetchCases = async () => {
     await getAllCases();
   };
-  const retrieveCaseById = async (id) => {
-    await getCaseById(id);
-  }
 
   return (
     <>
@@ -47,7 +43,7 @@ export default function CaseGrid() {
         >
           {cases.map((currentCase) => (
             currentCase.published && (
-              <CaseCard key={currentCase.id} medicalFieldId={currentCase.medical_field_id} name={currentCase.name} />
+              <CaseCard key={currentCase.id} caseId={currentCase.id} medicalFieldId={currentCase.medical_field_id} name={currentCase.name} />
             )
           ))}
         </SimpleGrid>)}
