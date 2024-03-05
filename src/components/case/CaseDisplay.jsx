@@ -10,12 +10,10 @@ import {
   Icon,
   Tooltip,
   Image,
-  Button,
 } from '@chakra-ui/react';
 import { LockIcon, WarningIcon } from '@chakra-ui/icons';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useEffect } from 'react';
-import { getMockSteps } from './exampleData';
 import { useCase } from '../../hooks/useCase';
 
 import Introduction from './steps/Introduction';
@@ -284,8 +282,6 @@ export default function CaseDisplay() {
 
   return (
     <>
-
-      {/* */}
       {loading && (
         <VStack margin={'1'} alignItems={'stretch'} spacing={'1'}>
           {steps.map((step, index) => (
