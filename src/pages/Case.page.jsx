@@ -1,6 +1,7 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import Header from '../components/header/Header';
 import CaseDisplay from '../components/case/CaseDisplay';
+import CaseDisplayDesk from '../components/case/CaseDisplayDesk';
 import { useAuth } from '../hooks/useAuth';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -18,8 +19,8 @@ export default function CasePage() {
   return (
     <Grid
       templateAreas={{
-        base: `"header" "main"`,
-        lg: `"header header" "main"`,
+        base: `"header" "mainBase"`,
+        lg: `"header header" "mainDesk"`,
       }}
       gridTemplateRows={{
         base: '10%',
@@ -35,8 +36,11 @@ export default function CasePage() {
       <GridItem area={'header'} borderBottom={'1px ridge'} bg={'gray.50'}>
         <Header />
       </GridItem>
-      <GridItem area={'main'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
+      {/* <GridItem area={'mainBase'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
         <CaseDisplay />
+      </GridItem> */}
+      <GridItem area={'mainBase'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
+        <CaseDisplayDesk/>
       </GridItem>
     </Grid>
   );
