@@ -7,6 +7,7 @@ export default function Examination({
   incrementActiveStepIndex,
   updateFaultsArray,
   isVisible,
+  incrementStepToView,
 }) {
   const finishStep = () => {
     updateIsFinishedArray(index);

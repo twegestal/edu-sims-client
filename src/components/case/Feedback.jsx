@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import GenericAccordion from '../GenericAccordion';
 
-export default function Feedback({ wasCorrect, feedbackToDisplay }) {
+export default function Feedback({ wasCorrect, feedbackToDisplay}) {
   return (
     <GenericAccordion
       allowMultiple={true}

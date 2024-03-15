@@ -7,6 +7,7 @@ export default function Diagnosis({
   incrementActiveStepIndex,
   updateFaultsArray,
   isVisible,
+  incrementStepToView,
 }) {
   const finishStep = () => {
     updateIsFinishedArray(index);

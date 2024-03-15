@@ -7,6 +7,7 @@ export default function Summary({
   incrementActiveStepIndex,
   updateFaultsArray,
   isVisible,
+  incrementStepToView,
 }) {
   const finishStep = () => {
     updateIsFinishedArray(index);

@@ -31,7 +31,7 @@ export default function CasePage() {
         lg: '1fr',
       }}
       w={'100%'}
-      h={'100vh'}
+      h={'100%'}
     >
       <GridItem area={'header'} borderBottom={'1px ridge'} bg={'gray.50'}>
         <Header />

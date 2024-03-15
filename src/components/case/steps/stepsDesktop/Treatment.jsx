@@ -7,6 +7,7 @@ export default function Treatment({
   incrementActiveStepIndex,
   updateFaultsArray,
   isVisible,
+  incrementStepToView,
 }) {
   const finishStep = () => {
     updateIsFinishedArray(index);
