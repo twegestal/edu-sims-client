@@ -47,7 +47,7 @@ export default function CaseDisplayDesk() {
       retrieveCaseById(caseId);
     } else {
       setSteps(caseById.steps);
-      //TODO: Kontrollera ifall detta ska byttas ut eller om det ska återuptas 
+      //TODO: Kontrollera ifall detta ska byttas ut eller om det ska återuptas
       /* localStorage.removeItem('currentCase'); */
       setLoading(true);
     }
@@ -154,7 +154,7 @@ export default function CaseDisplayDesk() {
   };
   const incrementStepToView = () => {
     setStepToView(stepToView + 1);
-  }
+  };
 
   const getImage = (moduleTypeIdentifier, index) => {
     if (!isFinishedArray[index] && index !== activeStepIndex) {
@@ -168,6 +168,7 @@ export default function CaseDisplayDesk() {
           maxH='50px'
           minW='40px'
           minH='40px'
+          borderRadius={3}
         />
       );
     }
@@ -187,6 +188,7 @@ export default function CaseDisplayDesk() {
               maxH='50px'
               minW='40px'
               minH='40px'
+              borderRadius={3}
             />
           </IconButton>
         );
@@ -206,6 +208,7 @@ export default function CaseDisplayDesk() {
               maxH='50px'
               minW='40px'
               minH='40px'
+              borderRadius={3}
             />
           </IconButton>
         );
@@ -225,6 +228,7 @@ export default function CaseDisplayDesk() {
               maxH='50px'
               minW='40px'
               minH='40px'
+              borderRadius={3}
             />
           </IconButton>
         );
@@ -244,6 +248,7 @@ export default function CaseDisplayDesk() {
               maxH='50px'
               minW='40px'
               minH='40px'
+              borderRadius={3}
             />
           </IconButton>
         );
@@ -263,6 +268,7 @@ export default function CaseDisplayDesk() {
               maxH='50px'
               minW='40px'
               minH='40px'
+              borderRadius={3}
             />
           </IconButton>
         );
@@ -274,14 +280,14 @@ export default function CaseDisplayDesk() {
     <>
       {loading && (
         <>
-            <Card variant={'filled'} margin={'1%'} border={'2px'}>
-          <HStack
-            justify={'center'}
-            marginLeft={'10%'}
-            marginRight={'10%'}
-            marginTop={'1%'}
-            marginBottom={'1%'}
-          >
+          <Card variant={'edu_case'} margin={'1%'}>
+            <HStack
+              justify={'center'}
+              marginLeft={'10%'}
+              marginRight={'10%'}
+              marginTop={'1%'}
+              marginBottom={'1%'}
+            >
               {steps.map((step, index) => (
                 <Fragment key={`frag${index}`}>
                   {getImage(step.module_type_identifier, index)}
@@ -294,8 +300,8 @@ export default function CaseDisplayDesk() {
                   )}
                 </Fragment>
               ))}
-          </HStack>
-            </Card>
+            </HStack>
+          </Card>
           <Stack width={'100%'} height={'100vh'}>
             {steps.map((step, index) =>
               moduleSwitch(step.stepData, step.module_type_identifier, index),

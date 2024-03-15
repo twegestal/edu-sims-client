@@ -1,4 +1,14 @@
-import { HStack, Card, Text, Stack, Button, Heading, Center, Divider, VStack } from '@chakra-ui/react';
+import {
+  HStack,
+  Card,
+  Text,
+  Stack,
+  Button,
+  Heading,
+  Center,
+  Divider,
+  VStack,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import Feedback from '../../Feedback';
 
@@ -31,8 +41,7 @@ export default function Introduction({
       }
       if (answer) {
         setIsNoBtnDisabled(true);
-      }
-      else {
+      } else {
         setIsYesBtnDisabled(true);
       }
       setDisplyFeedback(true);
@@ -42,45 +51,67 @@ export default function Introduction({
   const nextBtn = () => {
     if (isFinished) {
       incrementStepToView();
-    }
-    else {
+    } else {
       incrementActiveStepIndex();
       setIsFinished(true);
     }
-  }
+  };
   return (
     isVisible && (
       <HStack width={'100%'} height={'100%'} paddingLeft={'1%'} paddingRight={'1%'}>
-        <Card width={'30%'} height={'100%'} textAlign={'center'} variant={'filled'} border={'2px'}/>
-    
+        <Card width={'30%'} height={'100%'} textAlign={'center'} variant={'edu_case'} />
 
-
-
-        <Stack width={'40%'} height={'100%'} textAlign={'Center'} paddingLeft={'1%'} paddingRight={'1%'}>
-          {console.log(stepData)}
-          <Heading size={'lg'} paddingBottom={2}>Introduktion</Heading>
-          <Card border={'2px solid gray'} width={'100%'}  padding={'5%'}>
-
+        <Stack
+          width={'40%'}
+          height={'100%'}
+          textAlign={'Center'}
+          paddingLeft={'1%'}
+          paddingRight={'1%'}
+        >
+          <Heading size={'lg'} paddingBottom={2}>
+            Introduktion
+          </Heading>
+          <Card border={'2px solid gray'} width={'100%'} padding={'5%'}>
             <VStack spacing={8}>
               <Heading size={'md'}>Patientmöte</Heading>
               <Text textAlign={'left'}>{stepData.description}</Text>
               <Divider variant={'edu'} />
-              <Heading size={'md'}>Finns det anledning till attt utreda patienten vidare?</Heading>
+              <Heading size={'md'}>Finns det anledning att utreda patienten vidare?</Heading>
               <HStack width={'100%'} spacing={8} justifyContent={'center'}>
-                <Button isDisabled={isYesBtnDisabled} id={'yesBtn'} width={'20%'} onClick={() => finishStep(true)}>Ja</Button>
-                <Button isDisabled={isNoBtnDisabled} id={'noBtn'} width={'20%'} onClick={() => finishStep(false)}>Nej</Button>
+                <Button
+                  isDisabled={isYesBtnDisabled}
+                  id={'yesBtn'}
+                  width={'20%'}
+                  onClick={() => finishStep(true)}
+                >
+                  Ja
+                </Button>
+                <Button
+                  isDisabled={isNoBtnDisabled}
+                  id={'noBtn'}
+                  width={'20%'}
+                  onClick={() => finishStep(false)}
+                >
+                  Nej
+                </Button>
               </HStack>
             </VStack>
-
           </Card>
-          {displyFeedback && (<Button onClick={() => nextBtn()}>Nästa Steg</Button>)}
-
+          {displyFeedback && <Button onClick={() => nextBtn()}>Nästa Steg</Button>}
         </Stack>
 
-
-
-        <Card variant={'filled'} width={'30%'} height={'100%'} textAlign={'center'} paddingTop={2} paddingLeft={3} paddingRight={3} border={'2px'}>
-          {displyFeedback && (<Feedback wasCorrect={IsCorrect} feedbackToDisplay={feedbackToDisplay} />)}
+        <Card
+          variant={'edu_case'}
+          width={'30%'}
+          height={'100%'}
+          textAlign={'center'}
+          paddingTop={2}
+          paddingLeft={3}
+          paddingRight={3}
+        >
+          {displyFeedback && (
+            <Feedback wasCorrect={IsCorrect} feedbackToDisplay={feedbackToDisplay} />
+          )}
         </Card>
       </HStack>
     )

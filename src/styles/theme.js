@@ -3,6 +3,7 @@ import { buttonTheme } from './buttonStyles';
 import { accordionTheme } from './accordionStyles';
 import { inputTheme } from './inputStyles';
 import { dividerTheme } from './dividerStyles';
+import { cardTheme } from './cardStyles';
 
 let theme;
 export default theme = extendTheme({
@@ -35,5 +36,6 @@ export default theme = extendTheme({
     Accordion: accordionTheme,
     Input: inputTheme,
     Divider: dividerTheme,
+    Card: cardTheme,
   },
 });
