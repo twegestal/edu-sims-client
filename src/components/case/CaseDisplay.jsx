@@ -16,11 +16,11 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useEffect } from 'react';
 import { useCase } from '../../hooks/useCase';
 
-import Introduction from './steps/Introduction';
-import Examination from './steps/Examination';
-import Diagnosis from './steps/Diagnosis';
-import Treatment from './steps/Treatment';
-import Summary from './steps/Summary';
+import Introduction from './steps/stepsMobile/Introduction';
+import Examination from './steps/stepsMobile/Examination';
+import Diagnosis from './steps/stepsMobile/Diagnosis';
+import Treatment from './steps/stepsMobile/Treatment';
+import Summary from './steps/stepsMobile/Summary';
 
 import introIcon from '../../assets/images/png/IntroIcon.png';
 import examIcon from '../../assets/images/png/ExamIcon.png';
@@ -28,7 +28,6 @@ import diagnosisIcon from '../../assets/images/png/DiagnosisIcon.png';
 import treatmentIcon from '../../assets/images/png/TreatmentIcon.png';
 import summaryIcon from '../../assets/images/png/SummaryIcon.png';
 import questionMarkIcon from '../../assets/images/png/QuestionMarkIcon.png';
-import { set } from 'zod';
 
 export default function CaseDisplay() {
   const [steps, setSteps] = useState([]);
@@ -40,25 +39,22 @@ export default function CaseDisplay() {
   const [isFinishedArray, setIsFinishedArray] = useState(new Array(steps.length).fill(false));
   const [faultsArray, setFaultsArray] = useState(new Array(steps.length).fill(false));
 
-  const {
-    caseById, getCaseById
-  } = useCase();
+  const { caseById, getCaseById } = useCase();
 
   useEffect(() => {
-    const caseId = localStorage.getItem("currentCase");
+    const caseId = localStorage.getItem('currentCase');
     if (!caseById) {
       retrieveCaseById(caseId);
     } else {
       setSteps(caseById.steps);
-      localStorage.removeItem("currentCase");
+      /* localStorage.removeItem('currentCase'); */
       setLoading(true);
     }
-
   }, [caseById]);
 
   const retrieveCaseById = async (id) => {
     await getCaseById(id);
-  }
+  };
 
   const CircleIcon = (props) => (
     <Icon viewBox='0 0 200 200' boxSize='4' {...props}>
@@ -292,14 +288,13 @@ export default function CaseDisplay() {
                     {getImage(step.module_type_identifier, index)}
                     <Text>{getModuleName(step.module_type_identifier, index)}</Text>
                   </HStack>
-                  <HStack spacing={'8'}>
-
-                    {getControlIcon(index)}
-                  </HStack>
+                  <HStack spacing={'8'}>{getControlIcon(index)}</HStack>
                 </HStack>
               </CardHeader>
               <Collapse in={openCardIndex === index}>
-                <CardBody>{moduleSwitch(step.stepData, step.module_type_identifier, index)}</CardBody>
+                <CardBody>
+                  {moduleSwitch(step.stepData, step.module_type_identifier, index)}
+                </CardBody>
               </Collapse>
             </Card>
           ))}

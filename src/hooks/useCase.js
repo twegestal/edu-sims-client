@@ -8,7 +8,7 @@ export const useCase = () => {
   const getCaseByIdApi = useApi('getCaseById');
 
   const [cases, setCases] = useState();
-  const [caseById, setCaseById] = useState();
+  const [caseById, setCaseById] = useState(); 
 
   const getAllCases = async () => {
     try {

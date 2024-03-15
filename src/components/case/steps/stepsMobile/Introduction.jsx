@@ -4,7 +4,7 @@
 */
 import { Button, Divider, HStack, Heading, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import Feedback from '../Feedback';
+import Feedback from '../../Feedback';
 export default function Introduction({
   stepData,
   index,

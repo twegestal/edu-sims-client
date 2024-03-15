@@ -12,8 +12,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import GenericAccordion from '../../GenericAccordion';
-import Feedback from '../Feedback';
+import GenericAccordion from '../../../GenericAccordion';
+import Feedback from '../../Feedback';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 
