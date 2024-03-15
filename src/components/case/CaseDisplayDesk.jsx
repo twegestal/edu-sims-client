@@ -153,7 +153,6 @@ export default function CaseDisplayDesk() {
     }
   };
   const incrementStepToView = () => {
-    console.log("körs");
     setStepToView(stepToView + 1);
   }
 
