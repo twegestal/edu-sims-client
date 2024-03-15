@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Show } from '@chakra-ui/react';
 import Header from '../components/header/Header';
 import CaseDisplay from '../components/case/CaseDisplay';
 import CaseDisplayDesk from '../components/case/CaseDisplayDesk';
@@ -19,8 +19,8 @@ export default function CasePage() {
   return (
     <Grid
       templateAreas={{
-        base: `"header" "mainBase"`,
-        lg: `"header header" "mainDesk"`,
+        base: `"header" "main"`,
+        lg: `"header" "main"`,
       }}
       gridTemplateRows={{
         base: '10%',
@@ -36,12 +36,17 @@ export default function CasePage() {
       <GridItem area={'header'} borderBottom={'1px ridge'} bg={'gray.50'}>
         <Header />
       </GridItem>
-      {/* <GridItem area={'mainBase'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
-        <CaseDisplay />
-      </GridItem> */}
-      <GridItem area={'mainBase'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
-        <CaseDisplayDesk/>
+      <GridItem area={'main'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
+        <Show above='lg'>
+          <CaseDisplayDesk />
+        </Show>
+        <Show below='lg'>
+          <CaseDisplay />
+        </Show>
       </GridItem>
+      {/* <GridItem area={'main'} borderRight={'1px ridge'} borderLeft={'1px ridge'}>
+        <CaseDisplayDesk />
+      </GridItem> */}
     </Grid>
   );
 }

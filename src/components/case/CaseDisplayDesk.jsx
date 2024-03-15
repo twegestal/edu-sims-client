@@ -1,31 +1,30 @@
 import {
-  Step,
-  StepDescription,
-  StepIcon,
-  StepIndicator,
-  StepNumber,
-  StepSeparator,
-  StepStatus,
-  StepTitle,
-  Stepper,
-  useSteps,
-  Box,
-  Button,
   Card,
-  flexbox,
-  VStack,
   HStack,
   Stack,
-  Text
-} from '@chakra-ui/react'
-import { useCase } from "../../hooks/useCase";
-import { useEffect, useState } from 'react';
+  Text,
+  Radio,
+  RadioGroup,
+  Divider,
+  Image,
+  Flex,
+  IconButton,
+} from '@chakra-ui/react';
+import { useCase } from '../../hooks/useCase';
+import { useEffect, useState, Fragment } from 'react';
 
-import Introduction from './steps/Introduction';
-import Examination from './steps/Examination';
-import Diagnosis from './steps/Diagnosis';
-import Treatment from './steps/Treatment';
-import Summary from './steps/Summary';
+import Introduction from './steps/stepsDesktop/Introduction';
+import Examination from './steps/stepsDesktop/Examination';
+import Diagnosis from './steps/stepsDesktop/Diagnosis';
+import Treatment from './steps/stepsDesktop/Treatment';
+import Summary from './steps/stepsDesktop/Summary';
+
+import introIcon from '../../assets/images/png/IntroIcon.png';
+import examIcon from '../../assets/images/png/ExamIcon.png';
+import diagnosisIcon from '../../assets/images/png/DiagnosisIcon.png';
+import treatmentIcon from '../../assets/images/png/TreatmentIcon.png';
+import summaryIcon from '../../assets/images/png/SummaryIcon.png';
+import questionMarkIcon from '../../assets/images/png/QuestionMarkIcon.png';
 
 export default function CaseDisplayDesk() {
   const [steps, setSteps] = useState([]);
@@ -33,17 +32,22 @@ export default function CaseDisplayDesk() {
 
   const moduleTypeTable = ['Introduktion', 'Utredning', 'Diagnos', 'Behandling', 'Sammanfattning'];
   const [activeStepIndex, setActiveStepIndex] = useState(0);
-  const [loaderIndex, setLoaderIndex] = useState(0);
-  const [isFinishedArray, setIsFinishedArray] = useState(new Array(steps.length).fill(false));
+  const [stepToView, setStepToView] = useState(0);
+  const [isFinishedArray, setIsFinishedArray] = useState([]);
   const [faultsArray, setFaultsArray] = useState(new Array(steps.length).fill(false));
 
-  const {
-    caseById, getCaseById
-  } = useCase();
+  const { caseById, getCaseById } = useCase();
 
-  const incrementActiveStepIndex = () => {
-    setLoaderIndex(loaderIndex + 1);
-  };
+  useEffect(() => {
+    console.log('isFinished: ', isFinishedArray);
+  }, [isFinishedArray]);
+
+  useEffect(() => {
+    if (steps) {
+      setIsFinishedArray(new Array(steps.length).fill(false));
+    }
+  }, [steps]);
+
   const updateFaultsArray = (index) => {
     setFaultsArray((prevState) => {
       const newState = [...prevState];
@@ -53,12 +57,12 @@ export default function CaseDisplayDesk() {
   };
 
   useEffect(() => {
-    const caseId = localStorage.getItem("currentCase");
+    const caseId = localStorage.getItem('currentCase');
     if (!caseById) {
       retrieveCaseById(caseId);
     } else {
       setSteps(caseById.steps);
-      localStorage.removeItem("currentCase");
+      /* localStorage.removeItem('currentCase'); */
       setLoading(true);
     }
   }, [caseById]);
@@ -73,13 +77,18 @@ export default function CaseDisplayDesk() {
 
   const retrieveCaseById = async (id) => {
     await getCaseById(id);
-  }
+  };
 
   const getModuleName = (moduleTypeIdentifier, index) => {
     if (!isFinishedArray[index] && index !== loaderIndex) {
-      return "?";
+      return '?';
     }
     return moduleTypeTable[moduleTypeIdentifier];
+  };
+
+  const incrementActiveStepIndex = () => {
+    setActiveStepIndex(activeStepIndex + 1);
+    setStepToView(stepToView + 1);
   };
 
   const moduleSwitch = (stepData, moduleTypeIdentifier, index) => {
@@ -87,119 +96,218 @@ export default function CaseDisplayDesk() {
       case 0: {
         return (
           <Introduction
+            key={index}
             stepData={stepData}
             index={index}
             updateIsFinishedArray={updateIsFinishedArray}
             incrementActiveStepIndex={incrementActiveStepIndex}
             updateFaultsArray={updateFaultsArray}
+            isVisible={index === stepToView}
           />
         );
       }
       case 1: {
         return (
           <Examination
+            key={index}
             stepData={stepData}
             index={index}
             updateIsFinishedArray={updateIsFinishedArray}
             incrementActiveStepIndex={incrementActiveStepIndex}
             updateFaultsArray={updateFaultsArray}
+            isVisible={index === stepToView}
           />
         );
       }
+
       case 2: {
         return (
           <Diagnosis
+            key={index}
             stepData={stepData}
             index={index}
             updateIsFinishedArray={updateIsFinishedArray}
             incrementActiveStepIndex={incrementActiveStepIndex}
             updateFaultsArray={updateFaultsArray}
+            isVisible={index === stepToView}
           />
         );
       }
       case 3: {
         return (
           <Treatment
+            key={index}
             stepData={stepData}
             index={index}
             updateIsFinishedArray={updateIsFinishedArray}
             incrementActiveStepIndex={incrementActiveStepIndex}
             updateFaultsArray={updateFaultsArray}
+            isVisible={index === stepToView}
           />
         );
       }
       case 4: {
         return (
           <Summary
+            key={index}
             stepData={stepData}
             index={index}
             updateIsFinishedArray={updateIsFinishedArray}
             incrementActiveStepIndex={incrementActiveStepIndex}
             updateFaultsArray={updateFaultsArray}
+            isVisible={index === stepToView}
           />
         );
       }
     }
   };
 
+  const getImage = (moduleTypeIdentifier, index) => {
+    if (!isFinishedArray[index] && index !== activeStepIndex) {
+      return (
+        <Image
+          key={`image ${index}`}
+          width='12%'
+          src={questionMarkIcon}
+          alt='Okänd'
+          maxW='50px'
+          maxH='50px'
+          minW='40px'
+          minH='40px'
+        />
+      );
+    }
+    switch (moduleTypeIdentifier) {
+      case 0: {
+        return (
+          <IconButton
+            onClick={() => setStepToView(index)}
+            variant={index === stepToView ? 'step_icon_active' : 'step_icon'}
+          >
+            <Image
+              key={`image ${index}`}
+              width='12%'
+              src={introIcon}
+              alt='Introduktion'
+              maxW='50px'
+              maxH='50px'
+              minW='40px'
+              minH='40px'
+            />
+          </IconButton>
+        );
+      }
+      case 1: {
+        return (
+          <IconButton
+            onClick={() => setStepToView(index)}
+            variant={index === stepToView ? 'step_icon_active' : 'step_icon'}
+          >
+            <Image
+              key={`image ${index}`}
+              width='12%'
+              src={examIcon}
+              alt='Utredning'
+              maxW='50px'
+              maxH='50px'
+              minW='40px'
+              minH='40px'
+            />
+          </IconButton>
+        );
+      }
+      case 2: {
+        return (
+          <IconButton
+            onClick={() => setStepToView(index)}
+            variant={index === stepToView ? 'step_icon_active' : 'step_icon'}
+          >
+            <Image
+              key={`image ${index}`}
+              width='12%'
+              src={diagnosisIcon}
+              alt='Diagnos'
+              maxW='50px'
+              maxH='50px'
+              minW='40px'
+              minH='40px'
+            />
+          </IconButton>
+        );
+      }
+      case 3: {
+        return (
+          <IconButton
+            onClick={() => setStepToView(index)}
+            variant={index === stepToView ? 'step_icon_active' : 'step_icon'}
+          >
+            <Image
+              key={`image ${index}`}
+              width='12%'
+              src={treatmentIcon}
+              alt='Behandling'
+              maxW='50px'
+              maxH='50px'
+              minW='40px'
+              minH='40px'
+            />
+          </IconButton>
+        );
+      }
+      case 4: {
+        return (
+          <IconButton
+            onClick={() => setStepToView(index)}
+            variant={index === stepToView ? 'step_icon_active' : 'step_icon'}
+          >
+            <Image
+              key={`image ${index}`}
+              width='12%'
+              src={summaryIcon}
+              alt='Sammanfattning'
+              maxW='50px'
+              maxH='50px'
+              minW='40px'
+              minH='40px'
+            />
+          </IconButton>
+        );
+      }
+    }
+  };
+
   return (
+    <>
+      {loading && (
+        <>
+          <HStack
+            justify={'center'}
+            marginLeft={'10%'}
+            marginRight={'10%'}
+            marginTop={'1%'}
+            marginBottom={'1%'}
+          >
+            {steps.map((step, index) => (
+              <Fragment key={`frag${index}`}>
+                {getImage(step.module_type_identifier, index)}
+                {steps.length - 1 !== index && (
+                  <Divider
+                    variant={isFinishedArray[index] ? 'edu_finished' : 'edu_not_finished'}
+                    justifySelf={'flex-end'}
+                    key={index}
+                  ></Divider>
+                )}
+              </Fragment>
+            ))}
+          </HStack>
 
-    <HStack width={'100%'} height={'100%'}>
-      <Card width={'25%'} height={'100%'} textAlign={'center'}><Text>HÄR KOMMER DET FINNA GREJER</Text></Card>
-      <Stack width={'75%'} height={'100%'}>
-        {loading && (
-          <>
-            <Stepper index={activeStepIndex}>
-              {steps.map((step, index) => (
-                <Step key={index} onClick={() => {
-
-                  if (isFinishedArray[index] || index === loaderIndex) {
-                    setActiveStepIndex(index)
-                  }
-                }}>
-                  <Card onClick={() => console.log(index)} >
-                    <HStack>
-                      <StepIndicator >
-
-                        <StepStatus
-                          complete={(isFinishedArray[index] && (
-                            <StepIcon />
-                          ))}
-                          incomplete={<StepNumber />}
-                          active={<StepNumber />}
-                        />
-
-                      </StepIndicator>
-
-                      <Box flexShrink='0'>
-                        <StepTitle>{getModuleName(step.module_type_identifier, index)}</StepTitle>
-                        {/* <StepDescription>d</StepDescription> */}
-
-                      </Box>
-                    </HStack>
-                  </Card>
-                  <StepSeparator />
-                </Step>
-              ))}
-            </Stepper>
-
-            {/* <Button onClick={() => {
-
-            setActiveStepIndex(activeStepIndex - 1);
-          }}>
-            pre me -
-          </Button>
-          <Button onClick={() => {
-            updateIsFinishedArray(activeStepIndex);
-            setActiveStepIndex(activeStepIndex + 1);
-          }}>
-            pre me
-          </Button> */}
-            <Stack marginLeft={20} marginRight={20} padding={3} borderWidth={0}>{moduleSwitch(steps[activeStepIndex].stepData, steps[activeStepIndex].module_type_identifier, activeStepIndex)}</Stack>
-          </>
-        )}
-      </Stack>
-      <Card width={'25%'} height={'100%'} textAlign={'center'}><Text>HÄR KOMMER DET FINNA GREJER</Text></Card>
-    </HStack>
-  )
+          <Stack width={'100%'} height={'100%'}>
+            {steps.map((step, index) =>
+              moduleSwitch(step.stepData, step.module_type_identifier, index),
+            )}
+          </Stack>
+        </>
+      )}
+    </>
+  );
 }

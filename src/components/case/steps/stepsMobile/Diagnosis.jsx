@@ -6,8 +6,8 @@
 import { Button, Box, Card, Divider, Heading, Stack, VStack, HStack, Text } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-import Feedback from '../Feedback';
-import SearchBar from '../../SearchBar';
+import Feedback from '../../Feedback';
+import SearchBar from '../../../SearchBar';
 
 export default function Diagnosis({
   stepData,

@@ -22,8 +22,8 @@ import {
 import { SearchIcon } from '@chakra-ui/icons';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useState, useEffect } from 'react';
-import GenericAccordion from '../../GenericAccordion';
-import Feedback from '../Feedback';
+import GenericAccordion from '../../../GenericAccordion';
+import Feedback from '../../Feedback';
 
 /**
  * This component sets up the examination step used when performing a medical case.
@@ -214,8 +214,8 @@ export default function Examination({
                         .filter((examination) =>
                           searchTerms[subType]
                             ? examination.name
-                              .toLowerCase()
-                              .includes(searchTerms[subType].toLowerCase())
+                                .toLowerCase()
+                                .includes(searchTerms[subType].toLowerCase())
                             : true,
                         )
                         .map((examination) => (
