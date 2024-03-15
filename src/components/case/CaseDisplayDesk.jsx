@@ -1,15 +1,4 @@
-import {
-  Card,
-  HStack,
-  Stack,
-  Text,
-  Radio,
-  RadioGroup,
-  Divider,
-  Image,
-  Flex,
-  IconButton,
-} from '@chakra-ui/react';
+import { HStack, Stack, Divider, Image, IconButton } from '@chakra-ui/react';
 import { useCase } from '../../hooks/useCase';
 import { useEffect, useState, Fragment } from 'react';
 
@@ -39,10 +28,6 @@ export default function CaseDisplayDesk() {
   const { caseById, getCaseById } = useCase();
 
   useEffect(() => {
-    console.log('isFinished: ', isFinishedArray);
-  }, [isFinishedArray]);
-
-  useEffect(() => {
     if (steps) {
       setIsFinishedArray(new Array(steps.length).fill(false));
     }
@@ -62,7 +47,7 @@ export default function CaseDisplayDesk() {
       retrieveCaseById(caseId);
     } else {
       setSteps(caseById.steps);
-      /* localStorage.removeItem('currentCase'); */
+      localStorage.removeItem('currentCase');
       setLoading(true);
     }
   }, [caseById]);
