@@ -29,7 +29,7 @@ import {
  *                  ]
  */
 
-export default function GenericAccordion({ allowMultiple, variant, accordionItems }) {
+export default function GenericAccordion({ allowMultiple, variant, accordionItems}) {
   return (
     <Accordion variant={variant} allowMultiple={allowMultiple} width='100%'>
       {accordionItems.map((accordionItem, index) => (
