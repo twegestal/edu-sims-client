@@ -87,7 +87,7 @@ export default function Introduction({
               </HStack>
             </VStack>
           </Card>
-          {displyFeedback && <Button onClick={() => nextBtn()}>Nästa Steg</Button>}
+          {displyFeedback && <Button onClick={() => nextBtn()}>Nästa steg</Button>}
         </Stack>
 
         <Card
