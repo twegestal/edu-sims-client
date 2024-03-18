@@ -1,6 +1,6 @@
-import { HStack, Stack, Divider, Image, IconButton, Button, Card } from '@chakra-ui/react';
+import { HStack, Stack, Divider, Image, IconButton, Button, Card,Box } from '@chakra-ui/react';
 import { useCase } from '../../hooks/useCase';
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState, Fragment,useRef } from 'react';
 
 import Introduction from './steps/stepsDesktop/Introduction';
 import Examination from './steps/stepsDesktop/Examination';
@@ -24,7 +24,9 @@ export default function CaseDisplayDesk() {
   const [stepToView, setStepToView] = useState(0);
   const [isFinishedArray, setIsFinishedArray] = useState([]);
   const [faultsArray, setFaultsArray] = useState(new Array(steps.length).fill(false));
-
+  
+  const cardRef = useRef(null);
+  const [isCardFixed, setIsCardFixed] = useState(false);
   const { caseById, getCaseById } = useCase();
 
   useEffect(() => {
@@ -51,6 +53,11 @@ export default function CaseDisplayDesk() {
       /* localStorage.removeItem('currentCase'); */
       setLoading(true);
     }
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [caseById]);
 
   const updateIsFinishedArray = (index) => {
@@ -276,11 +283,31 @@ export default function CaseDisplayDesk() {
     }
   };
 
+  const handleScroll = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+
+    if (scrollTop > 120) {
+      setIsCardFixed(true);
+    } else {
+      setIsCardFixed(false);
+    }
+  };
+
   return (
     <>
       {loading && (
         <>
-          <Card variant={'edu_case'} margin={'1%'}>
+          <Card  
+            ref={cardRef}
+            opacity={isCardFixed ? 0.2 : ''}
+            _hover={{ opacity: 1, transition: 'opacity 0.3s ease-in-out' }}
+            variant={'edu_case'}
+            margin={'1%'}
+            position={isCardFixed ? 'fixed' : 'relative'}
+            top={isCardFixed ? '0px' : 'auto'}
+            width={isCardFixed ? `${cardRef.current.clientWidth+2.4}px` : ''}
+            zIndex={1}
+            >
             <HStack
               justify={'center'}
               marginLeft={'10%'}
@@ -302,6 +329,7 @@ export default function CaseDisplayDesk() {
               ))}
             </HStack>
           </Card>
+          <Box height={isCardFixed ? `${cardRef.current.clientHeight}px` : '0'} />
           <Stack width={'100%'} height={'100vh'}>
             {steps.map((step, index) =>
               moduleSwitch(step.stepData, step.module_type_identifier, index),
