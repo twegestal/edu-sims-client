@@ -54,6 +54,7 @@ export default function Treatment({
       }
     });
   };
+
   const setupAccordions = () => {
     return (
       <GenericAccordion
