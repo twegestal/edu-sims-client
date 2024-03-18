@@ -301,11 +301,7 @@ export default function Examination({
             {loading === false && displayFeedback === false && (
               <>
                 <Heading size={'md'}>Välj utredningar från listan:</Heading>
-                <Button
-                  isDisabled={examinationsToRun.length < 1}
-                  width='100%'
-                  onClick={runExaminations}
-                >
+                <Button isDisabled={examinationsToRun.length < 1} onClick={runExaminations}>
                   Genomför utredningar
                 </Button>
                 {setupAccordions()}
@@ -335,7 +331,7 @@ export default function Examination({
               {resultList.length > 0 && (
                 <>
                   <Divider variant='edu' />
-                  <Button isDisabled={isDoneButtonDisabled} width='100%' onClick={finishStep}>
+                  <Button isDisabled={isDoneButtonDisabled} onClick={finishStep}>
                     Klar med utredningar
                   </Button>
                 </>

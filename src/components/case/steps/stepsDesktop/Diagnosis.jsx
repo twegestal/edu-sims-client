@@ -1,7 +1,7 @@
 import { HStack, Card, Text, Stack, Button, Heading, Box, Divider, VStack } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import SearchBar from '../../../SearchBar.jsx';
-import { useState } from "react";
+import { useState } from 'react';
 import FeedbackDesktop from '../../FeedbackDesktop.jsx';
 
 export default function Diagnosis({
@@ -85,7 +85,7 @@ export default function Diagnosis({
               bg='fail.bg'
               onClick={() => {
                 setDiagnosisId();
-                setShowDiagnosis(false)
+                setShowDiagnosis(false);
               }}
             >
               <DeleteIcon />
@@ -96,18 +96,23 @@ export default function Diagnosis({
     );
   };
 
-
   return (
     isVisible && (
       <HStack width={'100%'} height={'100%'} paddingLeft={'1%'} paddingRight={'1%'}>
-        <Card width={'30%'} height={'100%'} textAlign={'center'} variant={'edu_case'} padding={'1%'} >
+        <Card
+          width={'30%'}
+          height={'100%'}
+          textAlign={'center'}
+          variant={'edu_case'}
+          padding={'1%'}
+        >
           <VStack spacing={4}>
-
             <Heading size={'sm'}>Vald Diagnos</Heading>
-            {showDiagnosis &&
-              (
-                <Stack width={'100%'} margin={'1%'}>{getChoosenDiagnosisCard()}</Stack>
-              )}
+            {showDiagnosis && (
+              <Stack width={'100%'} margin={'1%'}>
+                {getChoosenDiagnosisCard()}
+              </Stack>
+            )}
           </VStack>
         </Card>
         <Stack width={'40%'} height={'100%'}>
@@ -127,7 +132,7 @@ export default function Diagnosis({
                       width={'100%'}
                       onClick={() => {
                         setDiagnosisId(diagnosis.id);
-                        setShowDiagnosis(true)
+                        setShowDiagnosis(true);
                         setFilteredList([]);
                         setDiagnosisName(diagnosis.name);
                       }}
@@ -141,19 +146,26 @@ export default function Diagnosis({
                 </>
               ) : (
                 <>
-                  {showFeedback ? (<Button onClick={() => nextBtn()}>Nästa Steg</Button>) : (<Button onClick={() => finishStep()}>Ställ Diagnos</Button>)}
+                  {showFeedback === false && (
+                    <Button onClick={() => finishStep()}>Ställ Diagnos</Button>
+                  )}
                 </>
               )}
-
             </VStack>
           </Card>
+          {showFeedback && <Button onClick={() => nextBtn()}>Nästa Steg</Button>}
         </Stack>
-        <Card width={'30%'} height={'100%'} textAlign={'center'} variant={'edu_case'} padding={'3%'}>
+        <Card
+          width={'30%'}
+          height={'100%'}
+          textAlign={'center'}
+          variant={'edu_case'}
+          paddingTop={2}
+          paddingLeft={3}
+          paddingRight={3}
+        >
           {showFeedback && (
-            <FeedbackDesktop
-              wasCorrect={isCorrect}
-              feedbackToDisplay={feedbackToDisplay}
-            />
+            <FeedbackDesktop wasCorrect={isCorrect} feedbackToDisplay={feedbackToDisplay} />
           )}
         </Card>
       </HStack>
