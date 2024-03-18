@@ -4,7 +4,7 @@
 */
 import { Button, Divider, HStack, Heading, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
-import Feedback from '../../Feedback';
+import FeedbackMobile from '../../FeedbackMobile';
 export default function Introduction({
   stepData,
   index,
@@ -69,7 +69,7 @@ export default function Introduction({
           </Button>
         </HStack>
         {isFinished === true && (
-          <Feedback wasCorrect={isCorrect} feedbackToDisplay={feedbackToDisplay}></Feedback>
+          <FeedbackMobile wasCorrect={isCorrect} feedbackToDisplay={feedbackToDisplay} />
         )}
       </VStack>
     </>

@@ -6,7 +6,7 @@
 import { Button, Box, Card, Divider, Heading, Stack, VStack, HStack, Text } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useState } from 'react';
-import Feedback from '../../Feedback';
+import FeedbackMobile from '../../FeedbackMobile';
 import SearchBar from '../../../SearchBar';
 
 export default function Diagnosis({
@@ -128,7 +128,12 @@ export default function Diagnosis({
 
         {isFinished === true ? (
           ((<Divider variant='edu'></Divider>),
-          (<Feedback wasCorrect={isCorrect} feedbackToDisplay={feedbackToDisplay}></Feedback>))
+          (
+            <FeedbackMobile
+              wasCorrect={isCorrect}
+              feedbackToDisplay={feedbackToDisplay}
+            ></FeedbackMobile>
+          ))
         ) : (
           <Button onClick={() => validateChoosenDiagnosis()} isDisabled={!diagnosisId}>
             Ställ Diagnos

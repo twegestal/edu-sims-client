@@ -19,9 +19,13 @@ const edu_case = definePartsStyle({
 
 const edu_card = definePartsStyle({
   container: {
-    borderColor: 'black',
-    borderWidth: '4px',
-    backgroundColor: '#206bA9',
+    borderColor: 'gray',
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    /* backgroundColor: '#206bA9', */
+  },
+  header: {
+    borderRadius: '3',
   },
 });
 
