@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import GenericAccordion from '../../../GenericAccordion';
-import Feedback from '../../Feedback';
+import FeedbackMobile from '../../FeedbackMobile';
 import { AddIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 
@@ -217,12 +217,9 @@ export default function Treatment({
         {isFinished ? (
           <>
             {evaluateAnswer() ? (
-              <Feedback wasCorrect={true} feedbackToDisplay={stepData.feedback_correct}></Feedback>
+              <FeedbackMobile wasCorrect={true} feedbackToDisplay={stepData.feedback_correct} />
             ) : (
-              <Feedback
-                wasCorrect={false}
-                feedbackToDisplay={stepData.feedback_incorrect}
-              ></Feedback>
+              <FeedbackMobile wasCorrect={false} feedbackToDisplay={stepData.feedback_incorrect} />
             )}
           </>
         ) : (

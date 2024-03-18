@@ -23,7 +23,7 @@ import { SearchIcon } from '@chakra-ui/icons';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import { useState, useEffect } from 'react';
 import GenericAccordion from '../../../GenericAccordion';
-import Feedback from '../../Feedback';
+import FeedbackMobile from '../../FeedbackMobile';
 
 /**
  * This component sets up the examination step used when performing a medical case.
@@ -339,10 +339,13 @@ export default function Examination({
           <Button isDisabled={isDoneButtonDisabled} width='100%' onClick={finishStep}>
             Klar med utredningar
           </Button>
-        ) : evaluateAnswer() ? (
-          <Feedback wasCorrect={true} feedbackToDisplay={stepData.feedback_correct}></Feedback>
         ) : (
-          <Feedback wasCorrect={false} feedbackToDisplay={stepData.feedback_incorrect}></Feedback>
+          <FeedbackMobile
+            wasCorrect={evaluateAnswer()}
+            feedbackToDisplay={
+              evaluateAnswer() ? stepData.feedback_correct : stepData.feedback_incorrect
+            }
+          ></FeedbackMobile>
         )}
       </VStack>
     </>
