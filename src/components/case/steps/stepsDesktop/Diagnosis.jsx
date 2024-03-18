@@ -1,7 +1,7 @@
 import { HStack, Card, Text, Stack, Button, Heading, Box, Divider, VStack } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import SearchBar from '../../../SearchBar.jsx';
-import { useState} from "react";
+import { useState } from "react";
 import FeedbackDesktop from '../../FeedbackDesktop.jsx';
 
 export default function Diagnosis({
@@ -101,13 +101,14 @@ export default function Diagnosis({
     isVisible && (
       <HStack width={'100%'} height={'100%'} paddingLeft={'1%'} paddingRight={'1%'}>
         <Card width={'30%'} height={'100%'} textAlign={'center'} variant={'edu_case'} padding={'1%'} >
+          <VStack spacing={4}>
 
-          <Heading size={'sm'}>Vald Diagnos</Heading>
-          {showDiagnosis &&
-            (
-              <Stack width={'100%'} margin={'1%'}>{getChoosenDiagnosisCard()}</Stack>
-            )}
-
+            <Heading size={'sm'}>Vald Diagnos</Heading>
+            {showDiagnosis &&
+              (
+                <Stack width={'100%'} margin={'1%'}>{getChoosenDiagnosisCard()}</Stack>
+              )}
+          </VStack>
         </Card>
         <Stack width={'40%'} height={'100%'}>
           <Card variant={'edu_card'} padding={'5%'} textAlign={'center'} align={'center'}>
