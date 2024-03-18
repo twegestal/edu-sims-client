@@ -61,7 +61,7 @@ export default function Introduction({
           <Heading size={'lg'} paddingBottom={2}>
             Introduktion
           </Heading>
-          <Card /* border={'2px solid gray'} */ variant={'edu_card'} width={'100%'} padding={'5%'}>
+          <Card variant={'edu_card'} width={'100%'} padding={'5%'}>
             <VStack spacing={8}>
               <Heading size={'md'}>Patientmöte</Heading>
               <Text textAlign={'left'}>{stepData.description}</Text>

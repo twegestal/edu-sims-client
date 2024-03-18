@@ -22,7 +22,6 @@ const edu_card = definePartsStyle({
     borderColor: 'gray',
     borderWidth: '2px',
     borderStyle: 'solid',
-    /* backgroundColor: '#206bA9', */
   },
   header: {
     borderRadius: '3',

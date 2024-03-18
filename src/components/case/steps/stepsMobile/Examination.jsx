@@ -340,11 +340,6 @@ export default function Examination({
             Klar med utredningar
           </Button>
         ) : (
-          /* evaluateAnswer() ? (
-          <Feedback wasCorrect={true} feedbackToDisplay={stepData.feedback_correct}></Feedback>
-        ) : (
-          <Feedback wasCorrect={false} feedbackToDisplay={stepData.feedback_incorrect}></Feedback>
-        ) */
           <FeedbackMobile
             wasCorrect={evaluateAnswer()}
             feedbackToDisplay={
