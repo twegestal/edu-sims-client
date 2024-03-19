@@ -302,7 +302,7 @@ export default function CaseDisplayDesk() {
               ))}
             </HStack>
           </Card>
-          <Stack width={'100%'} height={'100vh'}>
+          <Stack width={'100%'} height={'75vh'}>
             {steps.map((step, index) =>
               moduleSwitch(step.stepData, step.module_type_identifier, index),
             )}
