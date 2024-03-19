@@ -44,7 +44,7 @@ export default function Summary({
 
         >
           <Stack spacing={8} textAlign={'left'}>
-            <Heading size={'md'} textAlign={'center'}>Ytterligare Info</Heading>
+            <Heading size={'md'} textAlign={'center'}>Ytterligare Information</Heading>
             <Text>{stepData.additional_info}</Text>
           </Stack>
         </Card>
@@ -75,7 +75,7 @@ export default function Summary({
               <Text>{stepData.process}</Text>
             </Stack>
           </Card>
-          <Button onClick={() => navigate('/')}>Avlsuta Fall</Button>
+          <Button onClick={() => navigate('/')}>Avsluta Fall</Button>
         </Stack>
         <Card
           width={'30%'}
